@@ -13,15 +13,21 @@ class UserProfile(models.Model):
     groups = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.full_name
+        return self.user.username
 
 class UserInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     interest_type = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.user.username
+
 class UserSkill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     skill_type = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.username
 
 class UserEducation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -29,9 +35,15 @@ class UserEducation(models.Model):
     institution_name = models.CharField(max_length=200)
     discipline = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.user.username
+
 class UserLocation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     location_details = models.TextField()
+
+    def __str__(self):
+        return self.user.username
 
 class Group(models.Model):
     group_name = models.CharField(max_length=200)
@@ -44,11 +56,14 @@ class Group(models.Model):
 class Post(models.Model):
     post_text = models.TextField()
     media = models.ImageField(upload_to='MediaPosts')
-    metatags = models.ForeignKey('MetaTags', on_delete=models.CASCADE, null=True, blank=True)
+    metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #Really think the group should'nt be here
     #group = models.ForeignKey(Group, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
 
     #class Meta:
         #abstract = True
@@ -109,7 +124,7 @@ class Message(models.Model):
     message_text = models.TextField()
     msg_datetime = models.DateTimeField(auto_now_add=True)
 
-class MetaTags(models.Model):
+class MetaTag(models.Model):
     tag = models.CharField(max_length=200)
 
 class GroupMember(models.Model):
