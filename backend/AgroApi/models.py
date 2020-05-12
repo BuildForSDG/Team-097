@@ -8,21 +8,30 @@ class UserProfile(models.Model):
     UserProfile Model
     user: owner of the profile and a OneToOne relationship to the user
     full_name: firstname and lastname of the user, a charfield with maximum lenght of 200
+
+    ## No need of full name as user model already contains firstname and lastname fields 
+
+        also date date joined date it is also contained in the user model
+     ##
+
     phone: The user's contact which is an integer field
     profile_pic: an image field to be uploaded to media/ProfilePictures
     joined: The date the user joined
     groups: The groups a user belongs to.. commented out for reconsideration
     location: The current user address. in contrast with the ER Diagram which has location as a separate table ER implementation is down the file
-
+    ### Reason i added location table is to allow users add mutiple address, we will create a choice
+    field for the states e.g lagos, ogun etc.
+    
     Added null and blank = True to some fields in case of empty values
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=200, null=True, blank=True)
+    # full_name = models.CharField(max_length=200, null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)
     profile_pic = models.ImageField(upload_to='ProfilePictures', blank=True, null=True)
-    joined = models.DateField(auto_now_add=True)
-    location = models.TextField(blank=True, null=True)
-    #groups = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
+    # joined = models.DateField(auto_now_add=True)
+    address_1 = models.CharField(blank=True, null=True)
+    address_2 = models.CharField(blank=True, null=True)
+    state = models.CharField(blank=True, null=True)
 
     def __str__(self):
         """
@@ -75,10 +84,13 @@ class Group(models.Model):
     """
     Database Model for platform groups
     The commented created_by field is to allow user to create a group and own the group.. Thought it wasn't neccessary
+
+    ### they are not allowed to create their own groups
     """
     group_name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
     date_created = models.DateField(auto_now_add=True)
-    #members = models.ManyToManyField('GroupMember')
+    members = models.ManyToManyField(through=GroupMember)
     # created_by = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -92,9 +104,10 @@ class Post(models.Model):
     """
     post_text = models.TextField()
     media = models.ImageField(upload_to='MediaPosts', blank=True)
-    metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
+    metatags = models.ForeignKey(MetaTag, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(through=PostLike)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -108,7 +121,7 @@ class PostLike(models.Model):
     actor: The performer of the like event
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    actor = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.actor.username
@@ -123,7 +136,7 @@ class PostComment(models.Model):
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.TextField()
-    actor = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.actor.username
@@ -131,22 +144,68 @@ class PostComment(models.Model):
     #class Meta:
         #abstract = True
 
-
 class MetaTag(models.Model):
-    tag = models.CharField(max_length=200)
+    """
+        A Database model for meta tags
+    """
+    RESEARCH = "Research"
+    FARMING = "Farming"
+    AGRO_BUISNESS = "Agro Buisness"
 
+    STATUS_CHOICE = [
+        (RESEARCH,"Research"),
+        (FARMING,"Farming"),
+        (AGRO_BUISNESS,"Agro Buisness"),
+    ]
+
+    tag = models.CharField(choices=STATUS_CHOICE)
+    
     def __str__(self):
         return self.tag
 
 
 class GroupMember(models.Model):
+    """
+        A Database model for cobtaing members of a group
+    """
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
 
+class Connection(models.Model):
+    PENDING = "Pending"
+    ACCEPTED ="Accepted"
+    BLOCKED = "Blocked"
+    IGNORE = "Ignore"
 
+    STATUS_CHOICE = [
+
+        (PENDING,"Pending"),
+        (ACCEPTED,"Accepted"),
+        (BLOCKED,"Blocked"),
+        (IGNORE,"Ignore")
+    ]
+
+    user_1 = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_2 = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS_CHOICE, default=False)
+    action_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+    class Meta:
+        unique_together = [user_1, user_2]
+
+class Message(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+    message_text = models.TextField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    msg_datetime = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = [recipient, sender]
+    
 
 
 """
@@ -187,10 +246,7 @@ class Connection(models.Model):
     status = models.BooleanField(default=False)
     #action user field!!!
  
-class Message(models.Model):
-    connection = models.OneToOneField(Connection)
-    message_text = models.TextField()
-    msg_datetime = models.DateTimeField(auto_now_add=True)
+
 
 #ER DIAGRAM IMPLEMENTATION OF THE LOCATION ATTRIBUTE IN THE USERPROFILE MODEL    
 class UserLocation(models.Model):
