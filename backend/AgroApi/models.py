@@ -91,11 +91,12 @@ class Post(models.Model):
     media: for images... can be blank for text_posts
     """
     post_text = models.TextField()
-    media = models.ImageField(upload_to='MediaPosts', blank=True)
+    media = models.FileField(upload_to='MediaPosts', blank=True)
     metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
@@ -150,7 +151,6 @@ class GroupMember(models.Model):
 
 
 """
-
 #ABSTRACT CLASS INHERITANCE
 class TextPost(Post):
     pass
