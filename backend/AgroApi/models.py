@@ -91,7 +91,7 @@ class Post(models.Model):
     media: for images... can be blank for text_posts
     """
     post_text = models.TextField()
-    media = models.ImageField(upload_to='MediaPosts')
+    media = models.ImageField(upload_to='MediaPosts', blank=True)
     metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -110,6 +110,9 @@ class PostLike(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     actor = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.actor.username
+
     #class Meta:
         #abstract = True
 
@@ -122,6 +125,9 @@ class PostComment(models.Model):
     comment = models.TextField()
     actor = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.actor.username
+
     #class Meta:
         #abstract = True
 
@@ -129,10 +135,16 @@ class PostComment(models.Model):
 class MetaTag(models.Model):
     tag = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.tag
+
 
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 

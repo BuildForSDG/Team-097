@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AgroApi',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
