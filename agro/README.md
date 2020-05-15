@@ -1,3 +1,19 @@
+### Logo
+
+The Logo has been added and it is in the `assets` folder in `src`.
+
+### Routes
+
+Custom routes files has been created in the `routes` folder in `src`. You are free to add yours depending on what file you are working on.
+
+### Fonts and Icons
+
+I also added `Poppins` font from [https://fonts.google.com/specimen/Poppins](https://fonts.google.com/specimen/Poppins) as well as Font Awesome 5 CDN link.
+
+### React Bootstrap
+
+SInce we agreed to use React-Bootstrap, I also added it along with boootstrap and imported in `index.js` in `src`.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
