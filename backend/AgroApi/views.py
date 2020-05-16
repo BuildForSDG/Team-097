@@ -1,14 +1,29 @@
 from django.shortcuts import render
-from .models import UserProfile
+from .models import UserProfile,Post,PostComment,Connection
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework import generics
 from .serializers import UserSerializer, UserProfileSerializer,PostSerializer,PostCommentSerializer,ConnectionSerializer
 
 
 # Create your views here.
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users_profile': reverse('user_profile', request=request, format=format),
+        'signup': reverse('signup', request=request, format=format),
+        'login': reverse('login', request=request, format=format),
+        'post': reverse('post-list', request=request, format=format),
+        'post_detail': reverse('post-detail', request=request, format=format),
+        'comments': reverse('post-cooment', request=request, format=format),
+        'contacts': reverse('user-contacts', request=request, format=format),
+    })
+
+
 class SignUp(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
