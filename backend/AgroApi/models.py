@@ -79,17 +79,6 @@ class UserEducation(models.Model):
     def __str__(self):
         return self.user.username
 
-class GroupMember(models.Model):
-    """
-        A Database model for cobtaing members of a group
-    """
-    group = models.ForeignKey('Group', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
-
-
 class Group(models.Model):
     """
     Database Model for platform groups
@@ -99,25 +88,31 @@ class Group(models.Model):
     group_name = models.CharField(max_length=200)
     description = models.CharField(max_length=200, null=True)
     date_created = models.DateField(auto_now_add=True)
-    members = models.ManyToManyField(User, through=GroupMember)
+    members = models.ManyToManyField(User, through='GroupMember')
 
     # created_by = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.group_name
 
-"""class PostLike(models.Model):
-    A Database model for all likes to a post
-    actor: The performer of the like event
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+
+class GroupMember(models.Model):
+    """
+        A Database model for cobtaing members of a group
+    """
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.actor.username
+        return "{}".format('Group members')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['group', 'user'], name='unique_group' )
+        
+        ]
 
-    # class Meta:
-    # abstract = True
-"""
+
 
 class Post(models.Model):
     """
@@ -128,18 +123,14 @@ class Post(models.Model):
     media = models.ImageField(upload_to='MediaPosts', blank=True)
     metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    likes = models.IntegerField(default=0)
-    #likes = models.ManyToManyField(through=PostLike)
+    likes = models.ManyToManyField(User, through='PostLike', related_name='post_likes')
+    group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username
     # class Meta:
     # abstract = True
-
-
-
 
 
 class PostComment(models.Model):
@@ -149,7 +140,8 @@ class PostComment(models.Model):
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.TextField()
-    actor = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_commented = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.actor.username
@@ -178,39 +170,58 @@ class MetaTag(models.Model):
         return self.tag
 
 
-"""class Connection(models.Model):
-    PENDING = "Pending"
-    ACCEPTED = "Accepted"
-    BLOCKED = "Blocked"
-    IGNORE = "Ignore"
+class PostLike(models.Model):
+    # A Database model for all likes to a post
+    # actor: The performer of the like event
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    STATUS_CHOICE = [
+    def __str__(self):
+        return self.actor.username
 
-        (PENDING, "Pending"),
-        (ACCEPTED, "Accepted"),
-        (BLOCKED, "Blocked"),
-        (IGNORE, "Ignore")
-    ]
+    # class Meta:
+    # abstract = True
 
-    user_1 = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_2 = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICE, default=False)
+class ConnectionStatus(models.Model):
+    status = models.CharField(max_length=20)
+
+    def __str__(self):
+        return "{}".format('connection status')
+
+class Connection(models.Model):
+    user_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='parent_user')
+    user_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requesting_user')
+    status = models.ForeignKey(ConnectionStatus, on_delete=models.CASCADE)
     action_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return "{}".format('connection list')
+    
     class Meta:
-        unique_together = ['user_1', 'user_2']
-"""
+        constraints = [
+            models.UniqueConstraint(fields= ['user_1', 'user_2'], name='unique_user_connection' )
+        
+        ]
 
-"""class Message(models.Model):
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Message(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
     message_text = models.TextField()
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
     msg_datetime = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ['recipient', 'sender']
+    def __str__(self):
+        return "{}".format('user messages')
 
-"""
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['recipient', 'sender'], name='unique_user_messages' )
+        
+        ]
+
+        
+
 """
 #ABSTRACT CLASS INHERITANCE
 class TextPost(Post):
@@ -246,3 +257,30 @@ class UserLocation(models.Model):
     def __str__(self):
         return self.user.username
 """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

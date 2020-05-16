@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework import generics
-from .serializers import UserSerializer, UserProfileSerializer
+from .serializers import UserSerializer, UserProfileSerializer,PostSerializer,PostCommentSerializer,ConnectionSerializer
 
 
 # Create your views here.
@@ -54,3 +54,47 @@ class UserProfileView(APIView):
         profile.save()
         return Response(serialized_profile.data, status=status.HTTP_200_OK)
 
+class Post(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        connections = Connection.objects.get(
+            Q(user_1=self.request.user)|
+            Q(user_2=self.request.user),
+            Q(status='Accepted')
+            
+            )
+        return Post.objects.filter(user=connections)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+     serializer_class = PostSerializer   
+
+     def get_queryset(self):
+         return Post.objects.all()
+
+
+class PostComment(generics.CreateAPIView):
+    serializer_class = PostCommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class Contacts(generics.ListAPIView):
+    serializer_class = ConnectionSerializer
+
+    def get_queryset(self):
+        return Connection.objects.filter(
+            Q(user_1=self.request.user)|
+            Q(user_2=self.request.user),
+            Q(status='Accepted')
+        
+        
+        )
+
+# class Groups(generics.):
+#     pass

@@ -21,7 +21,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('user', 'post_text', 'group', 'metatags', 'date_created', 'likes')
 
 class PostCommentAdmin(admin.ModelAdmin):
-    list_filter = ('post', 'comment', 'actor')
+    list_filter = ('post', 'comment', 'user')
 
 
 
