@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class Profile extends Component {
+export default class Agrocomodity extends Component {
     render() {
         return (
             <div>
-                <p>hellow</p>
+                <p>comodity</p>
             </div>
         )
     }

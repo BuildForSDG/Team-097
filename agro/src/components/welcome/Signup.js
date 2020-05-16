@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class Profile extends Component {
+export default class Signup extends Component {
     render() {
         return (
             <div>
-                <p>hellow</p>
+                <p>bestest</p>
             </div>
         )
     }
