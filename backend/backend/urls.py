@@ -18,11 +18,20 @@ from django.urls import path, include
 from . import settings
 from AgroApi import views
 from django.conf.urls.static import static
+from rest_framework.schemas import get_schema_view
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.api_root,),
+    # path('', views.api_root,),
     path('', include('AgroApi.urls')),
+    path('docs/', include_docs_urls(title='Agro_Api', public=False)),
+    path('Agroapi/', get_schema_view(
+        title="AgroApi",
+        description="API for Agro Network …",
+        version="1.0.0"
+    ), name='Agro-Api'),
+  
 ]
 
 if settings.DEBUG:
