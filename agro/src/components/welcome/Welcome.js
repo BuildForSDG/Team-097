@@ -1,6 +1,6 @@
 import React from 'react'
 import  { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Navbar,Nav,Form,FormControl,Button,} from 'react-bootstrap'
+import {Navbar, Nav, } from 'react-bootstrap';
 import About from './About';
 import Login from './Login'
 import Signup from './Signup'
@@ -14,9 +14,9 @@ const Welcome = () => {
         <div className = 'row'>
           <div className = 'col-12'>
           <Router>
-            <Navbar bg="success" variant="dark" expand="lg" sticky="top" className ='box'> 
+            <Navbar bg="success" variant="dark" expand="sm" sticky="top" className ='box'> 
             <Nav className="navbar navbar-expand-sm navbar-light fixed-top">
-              <div className="container txt">
+              <div className="container">
                 <Link className="navbar-brand" to={"/"}>AgroNetwork</Link>
                  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                  <Navbar.Collapse id ='responsive-navbar-nav'>
