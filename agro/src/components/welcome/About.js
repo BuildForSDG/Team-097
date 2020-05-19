@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { Container } from 'react-bootstrap';
 
-export default class About extends Component {
-    render() {
-        return (
-            <div>
-                <p>dgjhdfghdfhdh</p>
-            </div>
-        )
-    }
+const About = () => {
+    return (
+        <Container>
+            
+        </Container>
+    )
 }
+
+export default About
