@@ -3,7 +3,7 @@ import  { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import {Navbar, Nav, } from 'react-bootstrap';
 import About from './About';
 import Login from './Login'
-import Signup from './Signup'
+import Register from './Register'
 import Home from './Home'
 import './Welcome.css'
 
@@ -46,10 +46,10 @@ const Welcome = () => {
               <div className="auth-inner">
                 <Switch>
                   <Route exact path='/' component={Home} />
-                  <Route path="/Signup" component={Signup} />
-                  <Route path="/Login" component={Login} />
-                  <Route path="/About" component={About} />
-                  <Route path="/Home" component={Home} />
+                  <Route path="/register" component={Register} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/about" component={About} />
+                  <Route path="/home" component={Home} />
                 </Switch>
               </div>
             </div></Router>
