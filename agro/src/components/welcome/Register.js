@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
-import { REGISTER } from "../../routes/router";
+import { LOGIN } from "../../routes/router";
 
-const Login = (props) => {
+const Register = (props) => {
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [preference, setPreference] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      if (email || password === "") {
+      if (username || email || password || preference === "") {
         setErrorMessage("Please fill in all fields");
       } else {
-        console.log(email, password);
-        return props.history.replace(DASHBOARD);
+        console.log(username, email, password, preference);
+        return props.history.push(LOGIN);
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -26,12 +28,19 @@ const Login = (props) => {
     <Container>
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
-          <h5>Login</h5>
+          <h5>Register</h5>
           <hr />
           <Form onSubmit={handleSubmit}>
             {errorMessage ? (
               <Alert variant="warning">{errorMessage}</Alert>
             ) : null}
+            <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </Form.Group>
             <Form.Group>
               <Form.Label>E-mail</Form.Label>
               <Form.Control
@@ -46,14 +55,28 @@ const Login = (props) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button type="submit" variant="success" block>
+            <Form.Group>
+              <Form.Label>Preference</Form.Label>
+              <Form.Control
+                as="select"
+                onChange={(e) => setPreference(e.target.value)}
+              />
+              <option value="farmer">Farmer</option>
+              <option value="buyer">Buyer</option>
+              <option value="distributor">Distributor</option>
+              <option value="agroEnthusiast">Agro-Enthusiast</option>
+              <option value="agency">Agency</option>
+              <option value="consultant">Consultant</option>
+              <option value="researcher">Researcher</option>
+            </Form.Group>
+            <Button type="submit" variant="success">
               Register
             </Button>
           </Form>
           <p style={styles.text}>
-            Not yet a member?{" "}
-            <Link to={REGISTER} style={styles.link}>
-              Register here.
+            Have an account?{" "}
+            <Link to={LOGIN} style={styles.link}>
+              Login here.
             </Link>
           </p>
         </Col>
@@ -72,4 +95,4 @@ const styles = {
   },
 };
 
-export default withRouter(Login);
+export default withRouter(Register);
