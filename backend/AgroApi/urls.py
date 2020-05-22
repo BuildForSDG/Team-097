@@ -4,17 +4,22 @@ from . import views
 
 
 router = DefaultRouter()
-router.register(r'Signup', views.SignUp, basename='signup')
-router.register(r'Login', views.Login, basename='login')
-router.register(r'Userprofile', views.UserProfileView, basename='profile')
+router.register(r'People', views.People, basename='people')
+router.register(r'Follow_People', views.FollowPeople, basename='follow-people')
+router.register(r'User_Followers', views.UserFollowers, basename='user-followers')
+router.register(r'User_Profile', views.UserProfileView, basename='profile')
 router.register(r'Posts', views.Post, basename='posts')
-router.register(r'comments', views.PostComment, basename='comments')
-router.register(r'Contacts', views.Contacts, basename='contact')
+router.register(r'Comments', views.PostComment, basename='comments')
+router.register(r'Replies', views.PostComment, basename='replies')
+router.register(r'Like', views.Like, basename='Like')
 router.register(r'Groups', views.Groups, basename='group')
+router.register(r'Group_Posts', views.GroupPost, basename='group-post')
+
 
 urlpatterns = [
 
     path('', include(router.urls)),
+    
 ]
 
 # urlpatterns = [

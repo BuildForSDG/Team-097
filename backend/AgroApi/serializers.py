@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserProfile, UserInterest, UserEducation, UserSkill, Post, Group, GroupMember, MetaTag, PostComment,Connection,ConnectionStatus
+from .models import UserProfile, UserInterest, UserEducation, UserSkill, Post, Group, GroupMember, MetaTag, PostComment,Userfollowers,Activity,Likes,Events,CommentReply
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from .models import UserProfile
@@ -53,7 +53,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = '__all__'
 
-class GroupMemberSerializer(serializers.ModelSerializer):
+class GroupMemberSerializer(serializers.ModelSerializer): ##remember to add unique_together field
     class Meta:
         model = GroupMember
         fields = '__all__'
@@ -68,13 +68,29 @@ class PostCommentSerializer(serializers.ModelSerializer):
         model = PostComment
         fields = ['comment', 'user']
 
-
-class ConnectionSerializer(serializers.ModelSerializer):
+class CommentReplySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Connection
+        model = CommentReply
+        fields = ['comment', 'user']
+
+
+class UserFollowerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Userfollowers
         fields = '__all__'
 
-class ConnectionStatusSerializer(serializers.ModelSerializer):
+class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = ConnectionStatus
+        model = Activity
+        fields = '__all__'
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Likes
+        fields = '__all__'
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Events
         fields = '__all__'

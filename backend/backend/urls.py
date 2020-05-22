@@ -23,15 +23,10 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.api_root,),
     path('', include('AgroApi.urls')),
-    path('docs/', include_docs_urls(title='Agro_Api', public=False)),
-    path('Agroapi/', get_schema_view(
-        title="AgroApi",
-        description="API for Agro Network …",
-        version="1.0.0"
-    ), name='Agro-Api'),
-  
+    path('docs/', include_docs_urls(title='Agro_Api', public=True)),
+    path('auth/', include('rest_auth.urls')),
+    path('auth/registration/', include('rest_auth.registration.urls')),
 ]
 
 if settings.DEBUG:

@@ -22,10 +22,8 @@ class UserProfile(models.Model):
     Added null and blank = True to some fields in case of empty values
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # full_name = models.CharField(max_length=200, null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)
     profile_pic = models.ImageField(upload_to='ProfilePictures', blank=True, null=True)
-    # joined = models.DateField(auto_now_add=True)
     address_1 = models.TextField(blank=True, null=True)
     address_2 = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=200, blank=True, null=True)
@@ -79,6 +77,40 @@ class UserEducation(models.Model):
     def __str__(self):
         return self.user.username
 
+class Userfollowers(models.Model):
+    user_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='parent_user')
+    user_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requesting_user')
+    # status = models.BooleanField(default=False)
+    
+
+    def __str__(self):
+        return "{}".format('connection list')
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['user_1', 'user_2'], name='unique_user_connection' )
+        
+        ]
+
+
+
+class UserInbox(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
+    message_text = models.TextField()
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    msg_datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "{}".format('user messages')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['recipient', 'sender'], name='unique_user_messages' )
+        
+        ]
+
+
+
 class Group(models.Model):
     """
     Database Model for platform groups
@@ -90,7 +122,6 @@ class Group(models.Model):
     date_created = models.DateField(auto_now_add=True)
     members = models.ManyToManyField(User, through='GroupMember')
 
-    # created_by = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.group_name
@@ -123,7 +154,6 @@ class Post(models.Model):
     media = models.ImageField(upload_to='MediaPosts', blank=True)
     metatags = models.ForeignKey('MetaTag', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(User, through='PostLike', related_name='post_likes')
     group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
 
@@ -144,7 +174,20 @@ class PostComment(models.Model):
     date_commented = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.actor.username
+        return self.user.username
+
+
+class CommentReply(models.Model):
+    """
+       Table for Replying comments
+    """
+    comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
+    reply = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_commented = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
 
     # class Meta:
     # abstract = True
@@ -154,71 +197,52 @@ class MetaTag(models.Model):
     """
         A Database model for meta tags
     """
-    RESEARCH = "Research"
-    FARMING = "Farming"
-    AGRO_BUISNESS = "Agro Buisness"
-
-    STATUS_CHOICE = [
-        (RESEARCH, "Research"),
-        (FARMING, "Farming"),
-        (AGRO_BUISNESS, "Agro Buisness"),
-    ]
-
-    tag = models.CharField(max_length=200, choices=STATUS_CHOICE)
+    tag = models.CharField(max_length=200)
 
     def __str__(self):
         return self.tag
 
 
-class PostLike(models.Model):
-    # A Database model for all likes to a post
-    # actor: The performer of the like event
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+
+
+class Likes(models.Model):
+
+    """
+        Table for likes for both post and comments
+    """
+    parent_type = models.IntegerField() ## id of post or comment
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
-        return self.actor.username
+        return self.user.username
 
     # class Meta:
     # abstract = True
 
-class ConnectionStatus(models.Model):
-    status = models.CharField(max_length=20)
+
+"""
+    This section is suppose to be for activity table to track user activity, but for now leave
+    it
+"""
+class Events(models.Model):
+    event_type = models.CharField(max_length=200)
+
+
+class Activity(models.Model):
+    event = models.ForeignKey(Events, on_delete=models.CASCADE)
+    target_object = models.IntegerField()
+    user = models.ForeignKey(Userfollowers, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{}".format('connection status')
-
-class Connection(models.Model):
-    user_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='parent_user')
-    user_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requesting_user')
-    status = models.ForeignKey(ConnectionStatus, on_delete=models.CASCADE)
-    action_user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "{}".format('connection list')
-    
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields= ['user_1', 'user_2'], name='unique_user_connection' )
-        
-        ]
+        return "{}".format('News Feed')
 
 
 
-class Message(models.Model):
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
-    message_text = models.TextField()
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
-    msg_datetime = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return "{}".format('user messages')
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields= ['recipient', 'sender'], name='unique_user_messages' )
-        
-        ]
 
         
 
