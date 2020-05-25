@@ -31,8 +31,12 @@ function Login(props){
       if (!email.current.value || !password.current.value ) {
         setErrorMessage("Please fill in all fields");
       } else {
-        //console.log(email.current.value, password.current.value);
-        //return props.history.replace(DASHBOARD);
+        // Let's set the session data to persist login
+        localStorage.setItem('email',email.current.value);
+        localStorage.setItem('username','Kehinde');
+        localStorage.setItem('isLoggedIn',true);
+        // console.log(email.current.value, password.current.value);
+        // return props.history.replace(DASHBOARD);
         // Let's set the username, email and logged in status in the global state
         // Modify the payload to send
         payload.email = email.current.value;
@@ -45,7 +49,7 @@ function Login(props){
   };
 
   return (
-    !state.isLoggedIn ? 
+    !state.isLoggedIn ?
       <Fragment>
         <Navigation />
         <Container>
@@ -100,7 +104,7 @@ function Login(props){
         </Container>
       </Fragment>
     :
-      <Redirect to='/dashboard' />
+      <Redirect to={{pathname:'/dashboard'}} />
   );
 };
 

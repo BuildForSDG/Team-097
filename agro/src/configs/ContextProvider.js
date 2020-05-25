@@ -18,10 +18,11 @@ import React from 'react';
 let Context = React.createContext({});
 
 // The initial context state. Any global state can be added here
+// The initial state is preloaded with data stored in session if any
 let initialContextState = {
-  username: '',
-  email: '',
-  isLoggedIn: false
+  username: localStorage.getItem('username') ? localStorage.getItem('username') : '',
+  email: localStorage.getItem('email') ? localStorage.getItem('email') : '',
+  isLoggedIn: localStorage.getItem('email') ? true : false
 };
 
 // Now, let's set our reducer. The reducer is for changing the state.
