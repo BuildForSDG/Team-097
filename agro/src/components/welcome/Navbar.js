@@ -7,13 +7,17 @@
   The links should be styled for the hover event -- done
   Style for the collapsible and populate element inside
   Use img insteada of bootstrap image -- done
-  Find a way to make logo size small. Ver small, it's a bottleneck
+  Find a way to make logo size small. Ver small, it's a bottleneck -- i did some logos
+  Check out all the logos, which one would you prefer or suggest a nicer one. Check the AGreen_black
 */
 import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 // import { HOME, LOGIN, REGISTER, ABOUT } from '../../routes/router'; // We dont need all this component in the landing page
-import Logo from "../../assets/logo.png";
+// Import our logo and banner
+import Logo from "../../assets/logos/AG_cow.png";
+import banner from "../../assets/logos/AGreen.png";
+
 import './css/NavBar.css';
 
 const Navigation = () => {
@@ -27,7 +31,7 @@ const Navigation = () => {
       </Link>
     
       <Link to='/' id='banner' >
-        <p> Agro-Network </p>
+          <img src={banner} alt='agro-network' fluid="true" />
       </Link>
     </div>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

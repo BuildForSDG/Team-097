@@ -10,6 +10,9 @@ import {
   Container,
 } from "react-bootstrap";
 
+// Import our logo
+import Logo from "../../assets/logos/AG_cow.png";
+
 //Import our Loading Bar
 import { LoadingBar } from '../Fallbacks/fallback';
 
@@ -38,6 +41,7 @@ function Header(props) {
       <Navbar expand="lg" className="navbar-absolute fixed-top navbar-transparent">
         <Container fluid>
           <div className="navbar-wrapper">
+            <img src={Logo} alt='agro-network' id='logo' fluid="true" />
             <div className="navbar-toggle">
               <button type="button" ref={sidebarToggle} className="navbar-toggler" onClick={openSidebar}>
                 <span className="navbar-toggler-bar bar1" />

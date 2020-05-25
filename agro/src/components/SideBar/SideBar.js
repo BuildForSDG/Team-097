@@ -9,7 +9,7 @@ import React, { useRef, useEffect } from 'react'
 import { NavLink, withRouter } from 'react-router-dom';
 import { Nav } from 'react-bootstrap'; 
 // The logo for the header
-import logo from "../../assets/logo.png";
+//import logo from "../../assets/logo.png";
 
 // Import our css
 import './SideBar.css'
