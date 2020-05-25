@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+// Edit By Kehinde Faleye
+// Let's stick to functional component for ease and optimisation
+import React from 'react'
 
-export default class Profile extends Component {
-    render() {
-        return (
-            <div>
-                <p>hellow</p>
-            </div>
-        )
-    }
+export default function Profile(props) {
+    return (
+        <div className='content'>
+            
+        </div>
+    )
 }

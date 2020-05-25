@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+// Edit By Kehinde Faleye
+// Let's stick to functional component for ease and optimisation
+import React from 'react'
 
-export default class Product extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+export default function Product(props) {
+    return (
+        <div className='content'>
+            
+        </div>
+    )
 }

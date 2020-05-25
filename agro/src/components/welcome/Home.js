@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./Layout";
 import { Container, Row, Col, Image } from "react-bootstrap";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logos/AGreen_white.png";
 
 const Home = () => {
   return (

@@ -1,6 +1,6 @@
-import Logo from '../../assets/logo.png'
+import Logo from '../../assets/logos/AG_cock.png'
 
-export const agroNetworkData = [
+const agroNetworkData = [
     {
         networkName: "Farmers",
         networkImg: Logo,
@@ -9,7 +9,7 @@ export const agroNetworkData = [
     },
     {
         networkName: "Researchers",
-        networkImg: Logo,
+        networkImg: 'fa-books',
         description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, corporis iste? Dolorem nesciunt quis aspernatur?',
         timeStamp: new Date().toLocaleTimeString()
     },
@@ -61,4 +61,5 @@ export const agroNetworkData = [
         description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, corporis iste? Dolorem nesciunt quis aspernatur?',
         timeStamp: new Date().toLocaleTimeString()
     },
-]
+];
+export default agroNetworkData;

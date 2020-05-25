@@ -1,0 +1,20 @@
+/* The style for the login component */
+/*
+  TODO: Edit By Kehinde Faleye;
+
+*/
+#text {
+  margin-top: 20px;
+}
+
+.link {
+  color: green;
+}
+
+.link:hover {
+	text-decoration: none;
+}
+
+#btn {
+  font-weight: 500;
+}
