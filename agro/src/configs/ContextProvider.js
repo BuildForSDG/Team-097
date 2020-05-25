@@ -1,9 +1,11 @@
 /*
   TODO: Edit by Kehinde Faleye
   Create states for the following required variables:
-  => Username -- The name of the user. To appear on the app
-  => Email -- The email of users. To be used to identify a particular user
-  => Logged_In status -- To serve as session for the user
+  => Username -- The name of the user. To appear on the app -- done
+  => Email -- The email of users. To be used to identify a particular user -- done
+  => Logged_In status -- To serve as session for the user -- done
+  Create a general state update for setting multiple states at a time.
+  => Specifically for the loggin in since we need to set all 3 state at a time
 */
 /*
   This file is used to provide context a.k.a global state for the whole app
@@ -34,7 +36,7 @@ let reducer = (state, action) => {
 			// This action type would set the state of the user. Either logged in or not
 			// Set to true for logged in and false for logged out
 			// The state param for this object should be a boolean value true or false
-			let newState = Object.assign({},state);
+			let newState = Object.assign({},action.payload.state);
 			newState.isLoggedIn = action.payload;
 			return newState;
 		}
@@ -42,17 +44,25 @@ let reducer = (state, action) => {
 		case 'setEmail': {
 			// This action type would set the email of the user.
 			// The state param for this object should be a string representing the email
-			let newState = Object.assign({},state);
+			let newState = Object.assign({},action.payload.state);
 			newState.email = action.payload;
-			return newState
+			return newState;
 		}
 		
   case 'setUsername': {
 			// This action type would set the username of the user.
 			// The state param for this object should be a string representing the username
-  	let newState = Object.assign({},state);
+  	let newState = Object.assign({},action.payload.state);
   	newState.username = action.payload;
   	return newState;
+  }
+
+  case 'setUserStatus':{
+  	// This action would set the email, username and isLoggedIn state at a time
+  	// This was done to reduce un-needed re-renders.
+  	// The action.payload param is going to be an object of the form
+  	// {email:'', username:'', isLoggedIn:bool}
+  	return setUserStatus(state,action.payload);
   }
 
   default: // In case
@@ -60,6 +70,16 @@ let reducer = (state, action) => {
 	}
 }
 
+/* This are functions that can be used to set states should the logic to set states is compicated.
+  Keep functions lean */
+// This function is used to set the email, loggedIn and username status at a time
+const setUserStatus = (state, data) => {
+	let newState = Object.assign({}, data.state);
+	newState.email = data.email;
+	newState.username = data.username;
+	newState.isLoggedIn = data.isLoggedIn;
+	return newState;
+}
 // Now to set up the context provider. This function would setup the context on every component that imports it
 // Reducing code space and abstracting implementation
 function ContextProvider(props){

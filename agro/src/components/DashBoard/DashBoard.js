@@ -4,7 +4,7 @@
   Make Footer sticky
 
 */
-import React, {useEffect, useState, useRef, Suspense, lazy} from 'react';
+import React, {useEffect, useState, useRef, useContext, Suspense, lazy} from 'react';
 import {Route, Switch} from 'react-router-dom';
 
 // Import our fallback
@@ -16,7 +16,8 @@ import SideBar from '../SideBar/SideBar';
 import Footer from './Footer';
 // Import the NavBar
 import NavBar from './NavBar';
-
+// Import our context
+import { Context } from '../../configs/ContextProvider';
 // Let's import our routes
 import routes from '../../routes/router';
 
@@ -28,6 +29,9 @@ function DashBoard (props) {
   //For scrolling to the top should a browser history push occurs
   const mainPanel = useRef();
 
+  // Let's connect to our global state
+  let { state, dispatch } = useContext(Context);
+  
   useEffect(() => {
 	//Populate the views
     let views = [];
