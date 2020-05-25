@@ -13,7 +13,7 @@
 */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Card, Image } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import agroNetworkData from "./agroNetworkMockData";
 
 // Import our logo

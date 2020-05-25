@@ -13,8 +13,8 @@ import {
 // Import our logo
 import Logo from "../../assets/logos/AG_cow.png";
 
-//Import our Loading Bar
-import { LoadingBar } from '../Fallbacks/fallback';
+// Import our Loading Bar
+// import { LoadingBar } from '../Fallbacks/fallback'; //This component would be able to work after context is set up
 
 function Header(props) {
 
