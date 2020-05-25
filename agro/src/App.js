@@ -23,16 +23,24 @@ const About  = lazy(() => import('./components/welcome/About'));
 
 /* All this components shouldn't be in scope untill login. Remove and put in dashboard
 // Components  Guide By Soyaya
-import Product from './components/ecommerce/Product';
-import Cart from './components/ecommerce/Cart';
-import Agronetwork from './components/agronetwork/AgroNetwork';
-import Agrocomodity from './components/Agrocomodity/Agrocomodity';
-import Profile from './components/profile/Profile';
-import Timeline from './components/social/Timeline'
+import Product from "./components/ecommerce/Product";
+import Cart from "./components/ecommerce/Cart";
+import Agronetwork from "./components/agronetwork/AgroNetwork";
+import Agrocomodity from "./components/Agrocomodity/Agrocomodity";
+import Profile from "./components/profile/Profile";
+import Timeline from "./components/social/Timeline";
 // End
 */
 
 const App = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    {
+      authenticated ? setAuthenticated(true) : setAuthenticated(false);
+    }
+  });
+
   return (
     <Router>
       <Suspense fallback={<PageFallBack />}>

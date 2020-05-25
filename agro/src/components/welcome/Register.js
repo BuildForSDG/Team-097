@@ -7,7 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
 import Layout from "./Layout";
 
-const Register = (props) => {
+function Register(props) {
   // const [username, setUserName] = useState(""); // Using refsf instead
   const username = useRef(null);
   // const [email, setEmail] = useState(""); // Using refs instead
@@ -122,8 +122,8 @@ const styles = {
     color: "green",
   },
   btn: {
-    fontWeight: '500',
-  }
+    fontWeight: "500",
+  },
 };
 
 export default withRouter(Register);

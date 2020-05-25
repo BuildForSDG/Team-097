@@ -96,8 +96,8 @@ const styles = {
     color: "green",
   },
   btn: {
-    fontWeight: '500',
-  }
+    fontWeight: "500",
+  },
 };
 */
 

@@ -1,16 +1,8 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import Layout from './Layout'
+import React from "react";
+import { Container } from "react-bootstrap";
 
 const About = () => {
-    return (
-        <Layout>
-            <Container>
-                Hello WOrld About
-            </Container>
-        </Layout>
-    )
-}
+  return <Container fluid>Hello World About</Container>;
+};
 
-export default About
-
+export default About;
