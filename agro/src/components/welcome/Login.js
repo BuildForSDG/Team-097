@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+/* TODO: Edit By Kehinde Faleye
+  Use Refs instead of states for getting values to reduce re-renders -- done
+  Move styles to css -- done
+  Add the about us link under Register link -- done
+*/
+import React, { useState, useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Container, Row, Col, Form, Alert, Button, Navbar } from "react-bootstrap";
-import { REGISTER, DASHBOARD } from "../../routes/router";
+import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
 import Layout from './Layout';
+import './css/Login.css';
 
 const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState(''); // Use refs instead 
+  const email = useRef(null);
+  // const [password, setPassword] = useState(''); // Use Refs instead
+  const password = useRef(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      if (email || password === "") {
+      if (email.current.value || password.current.value === "") {
         setErrorMessage("Please fill in all fields");
       } else {
-        console.log(email, password);
-        return props.history.replace(DASHBOARD);
+        console.log(email.current.value, password.current.value);
+        //return props.history.replace(DASHBOARD);
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -27,37 +34,51 @@ const Login = (props) => {
     <Layout>
       <Container>
         <Row>
-          <Col md={{ span: 6, offset: 3 }}>
+          <Col md={{ span: 4, offset: 4 }}>
             <h5 className='mt-4'>Login</h5>
             <hr />
             <Form onSubmit={handleSubmit}>
-              {errorMessage ? (
-                <Alert variant="warning">{errorMessage}</Alert>
-              ) : null}
+              {
+              	errorMessage ? 
+              	(
+                	<Alert variant="warning">{errorMessage}</Alert>
+              	) 
+              	: 
+              	null
+              }
               <Form.Group>
                 <Form.Label>E-mail</Form.Label>
                 <Form.Control
                   type="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  ref={email}
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  ref={password}
                 />
               </Form.Group>
-              <Button type="submit" size='md' style={styles.btn} variant="success" block>
+              <Button type="submit" size='md' id='btn' variant="success" block>
                 Login
               </Button>
             </Form>
-            <p style={styles.text}>
-              Not yet a member?{" "}
-              <Link to={REGISTER} style={styles.link}>
+            <p id='text' >
+              Not yet a member ?
+              {" "}
+              <Link to='/register' className='link' >
                 Register here.
               </Link>
             </p>
+            <div>
+              <Link to='/about' style={{float:'left'}} className='link' >
+                About Us
+              </Link>
+              <Link to='/policy' style={{float:'right'}} className='link' >
+                Privacy Policy
+              </Link>
+            </div>
           </Col>
         </Row>
       </Container>
@@ -65,6 +86,7 @@ const Login = (props) => {
   );
 };
 
+/* Moved to css file Login.css 
 const styles = {
   text: {
     marginTop: "20px",
@@ -77,5 +99,6 @@ const styles = {
     fontWeight: '500',
   }
 };
+*/
 
 export default withRouter(Login);
