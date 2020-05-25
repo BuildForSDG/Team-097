@@ -9,7 +9,7 @@ const agroNetworkData = [
     },
     {
         networkName: "Researchers",
-        networkImg: Logo,
+        networkImg: 'fa-books',
         description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, corporis iste? Dolorem nesciunt quis aspernatur?',
         timeStamp: new Date().toLocaleTimeString()
     },
