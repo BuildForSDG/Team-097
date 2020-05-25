@@ -33,14 +33,6 @@ import Timeline from "./components/social/Timeline";
 */
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    {
-      authenticated ? setAuthenticated(true) : setAuthenticated(false);
-    }
-  });
-
   return (
     <Router>
       <Suspense fallback={<PageFallBack />}>

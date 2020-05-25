@@ -1,11 +1,12 @@
 /*
   TODO: Edit by Kehinde Faleye
   Use refs to access input values instead of states to reduce re-renders -- done
+  Make NavBar persistent instead og being imported each redirect
 */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
-import Layout from "./Layout";
+import Navigation from "./Navbar";
 
 function Register(props) {
   // const [username, setUserName] = useState(""); // Using refsf instead
@@ -37,7 +38,8 @@ function Register(props) {
   };
 
   return (
-    <Layout>
+    <Fragment>
+      <Navigation />
       <Container>
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
@@ -109,7 +111,7 @@ function Register(props) {
           </Col>
         </Row>
       </Container>
-    </Layout>
+    </Fragment>
   );
 };
 

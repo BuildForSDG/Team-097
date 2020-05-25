@@ -3,10 +3,10 @@
   Move styles to css -- done
   Add the about us link under Register link -- done
 */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
-import Layout from './Layout';
+import Navigation from './Navbar';
 import './css/Login.css';
 
 const Login = (props) => {
@@ -31,7 +31,8 @@ const Login = (props) => {
   };
 
   return (
-    <Layout>
+    <Fragment>
+      <Navigation />
       <Container>
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
@@ -82,7 +83,7 @@ const Login = (props) => {
           </Col>
         </Row>
       </Container>
-    </Layout>
+    </Fragment>
   );
 };
 
