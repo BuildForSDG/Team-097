@@ -35,8 +35,8 @@ const Login = (props) => {
       <Navigation />
       <Container>
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
-            <h5 className='mt-4'>Login</h5>
+          <Col md={{ span: 6, offset: 3 }}>
+            <h5 id='h5' className='mt-4'>Login</h5>
             <hr />
             <Form onSubmit={handleSubmit}>
               {

@@ -12,7 +12,7 @@
 */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Image } from "react-bootstrap";
 // import { HOME, LOGIN, REGISTER, ABOUT } from '../../routes/router'; // We dont need all this component in the landing page
 // Import our logo and banner
 import Logo from "../../assets/logos/AG_cow.png";
@@ -25,18 +25,19 @@ const Navigation = () => {
     <Navbar expand="md" id='navbar' >
     <div id='brand' >
       <Link to='/' id='logoLink' >
-        <Navbar.Brand>
-          <img src={Logo} alt='agro-network' id='logo' fluid="true" />
+        <Navbar.Brand id='banner'>
+          <Image src={Logo} alt='agro-network' id='logo' fluid />
+          <Image src={banner} alt='agro-network' fluid />
         </Navbar.Brand>
       </Link>
     
-      <Link to='/' id='banner' >
+      {/* <Link to='/' id='banner' >
           <img src={banner} alt='agro-network' fluid="true" />
-      </Link>
+      </Link> */}
     </div>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
+      {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+      {/* <Navbar.Collapse id="basic-navbar-nav"> */}
+        {/* <Nav className="ml-auto"> */}
           {/* Uneeded Links for now. Move to dasboard
             <Link to={HOME} style={styles.link}>Welcome</Link>
             <Link to={LOGIN} style={styles.link}>Login</Link>
@@ -51,8 +52,8 @@ const Navigation = () => {
             <Link to='/profile' style={styles.link}>Profile</Link>
           */}
           {/*Moved to the login component <Link to='/about' style={ styles.link }> About </Link> */}
-        </Nav>
-      </Navbar.Collapse>
+        {/* </Nav> */}
+       {/* </Navbar.Collapse> */}
     </Navbar>
   );
 };
