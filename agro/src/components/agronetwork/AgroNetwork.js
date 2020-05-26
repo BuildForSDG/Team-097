@@ -10,24 +10,36 @@
   NOTE:Again check which logo or bootstrap <i> font would work
   NOTE:I suggest the logo is differnet for various networks using <i>
   The comment should be a link. Decide if to make the div a collapsible to show a scroll comment div or redirect to another component
+  Moved the logic for populating data to a function
 */
-import React from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import agroNetworkData from "./agroNetworkMockData";
-
+// Import our context
+import { Context } from '../../configs/ContextProvider';
 // Import our logo
 import Logo from "../../assets/logos/AG_cock.png";
-
 // Import our css file
 import './AgroNetwork.css';
 
 function AgroNetwork(props) {
-  return (
-    <Container className='content' style={{paddingLeft:'12%',paddingRight:'12%'}} fluid>
-      <Row>
-        {agroNetworkData.map((data) => (
-          <Col
+console.log('agro')
+  // Let's create a state to save the agro-network cards
+  const [views,setViews] = useState([]);
+  // Let's connect to our global state
+  let { state, dispatch } = useContext(Context);
+
+  // This rather long function is for dynmically populating the row objects
+  const getData = () => {
+    // Let us set the working state to true
+    if(!state.working){
+      dispatch({type:'setWorking',payload:{state}});
+    }
+    // Let's populate all the network card into view
+    let view = [];
+        agroNetworkData.map((data) => {
+          view.push(<Col
             sm={12}
             md={4}
             lg={4}
@@ -36,15 +48,7 @@ function AgroNetwork(props) {
           >
           <Card id='card'>
             <Card.Body>
-              <Row
-                style={{ display: "flex", justifyContent: "space-evenly" }}
-              >
-              {/*
-                <i
-                  style={{ fontSize: "1.5rem" }}
-                  className="fas fa-user-circle"
-                ></i>
-              */}
+              <Row style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <img src={Logo} alt='agro-network' id='logo' fluid="true" />
                 <Link to="#" style={{ textDecoration: 'none' }}>
                   <p style={{ fontWeight: "bold", fontSize: "1rem" , color:'#218738'}}>
@@ -73,7 +77,24 @@ function AgroNetwork(props) {
             </Card.Body>
           </Card>
           </Col>
-        ))}
+          );
+          return true;
+        });
+    // Let's set that we are done doing work
+    dispatch({type:'unsetWorking',payload:{state}});
+    setViews(view);
+  };
+
+  useEffect(() => {
+    if(views.length <= 0){
+      getData()
+    }
+  },[views]);
+
+  return (
+    <Container className='content' style={{paddingLeft:'12%',paddingRight:'12%'}} fluid>
+      <Row>
+        {views}
       </Row>
     </Container>
   );

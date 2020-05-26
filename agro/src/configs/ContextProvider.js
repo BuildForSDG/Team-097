@@ -5,7 +5,10 @@
   => Email -- The email of users. To be used to identify a particular user -- done
   => Logged_In status -- To serve as session for the user -- done
   Create a general state update for setting multiple states at a time.
-  => Specifically for the loggin in since we need to set all 3 state at a time
+  => Specifically for the loggin in since we need to set all 3 state at a time -- done
+  Create a global variable to signify that work is being done by any other page
+  =>This aoule llow to show a loading div even accross pages
+  =>Work could be any function not a component that is run
 */
 /*
   This file is used to provide context a.k.a global state for the whole app
@@ -22,7 +25,8 @@ let Context = React.createContext({});
 let initialContextState = {
   username: localStorage.getItem('username') ? localStorage.getItem('username') : '',
   email: localStorage.getItem('email') ? localStorage.getItem('email') : '',
-  isLoggedIn: localStorage.getItem('email') ? true : false
+  isLoggedIn: localStorage.getItem('email') ? true : false,
+  working:false // is any page doing work?
 };
 
 // Now, let's set our reducer. The reducer is for changing the state.
@@ -58,12 +62,30 @@ let reducer = (state, action) => {
   	return newState;
   }
 
+  case 'setWorking':{
+  	// This action would update the working status to true
+  	// Thereby any rendered page could show a loading div
+  	// If needed.
+  	let newState = Object.assign({},action.payload.state);
+  	newState.working = true;
+  	return newState;
+  }
+
+  case 'unsetWorking':{
+  	// This action would update the working status to false
+  	// Thereby any rendered page could show remove loading div
+  	// If needed.
+  	let newState = Object.assign({},action.payload.state);
+  	newState.working = false;
+  	return newState;
+  }
+
   case 'setUserStatus':{
   	// This action would set the email, username and isLoggedIn state at a time
   	// This was done to reduce un-needed re-renders.
   	// The action.payload param is going to be an object of the form
   	// {email:'', username:'', isLoggedIn:bool}
-  	return setUserStatus(state,action.payload);
+  	return setUserStatus(action.payload);
   }
 
   case 'reset':{
@@ -79,7 +101,7 @@ let reducer = (state, action) => {
 /* This are functions that can be used to set states should the logic to set states is compicated.
   Keep functions lean */
 // This function is used to set the email, loggedIn and username status at a time
-const setUserStatus = (state, data) => {
+const setUserStatus = (data) => {
 	let newState = Object.assign({}, data.state);
 	newState.email = data.email;
 	newState.username = data.username;

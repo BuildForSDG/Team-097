@@ -6,35 +6,44 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
+// Import out logo
+import logo from '../../assets/logos/AG_cow.png';
+// The css file
 import './fallback.css'
 
-//This component is for a full page error msg display
+//This component is for a full page loading logo
 function PageFallback(props) {
 	
-	return(
+ return(
 
 		<div className="Fall-header"> 
 			<div style={{display:'flex',alignItems:'center'}} >
-				<p style={{
-					color:"#28a745",
-					fontWeight:'300',
-					marginRight:'15px',
-					marginBottom:'0px'
-				}} > 
-				{ props.msg ? props.msg : 'Agro-Networks' } </p>
-				<Spinner animation='border' variant='success' />
+     <img id='loadingLogo' alt='AgroNetwork' src={logo} />
 			</div>
 		</div>
 	);
 }
 
-//This component is for a full page error msg display
+//This component is for a full page loading spinner
 export function LoadingBar(props) {
 	
+ return(
+
+		<div className="Fall-header"> 
+			<div style={{display:'flex',alignItems:'center'}} >
+			<Spinner animation='border' variant='success' />
+			</div>
+		</div>
+	);
+}
+
+//This component is for a mini loading bar
+export function LoadingSpinner(props) {
 	return(
 		<div style={{marginRight:'10px',marginLeft:'10px'}}> 
 			<Spinner animation='border' variant='success' />
 		</div>
 	);
 }
+
 export default PageFallback
