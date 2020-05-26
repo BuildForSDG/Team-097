@@ -3,7 +3,6 @@
   
 */
 #navbar {
-  height: 60px;
   background-color: #f4f3ef;
 }
 
@@ -12,6 +11,7 @@
   width: -webkit-fill-available;
   grid-template-columns: .2fr 3fr;
   grid-template-rows: 60px;
+  margin: -80px 0 -80px;
 }
 
 #logo {
@@ -22,8 +22,6 @@
 
 #logoLink {
   font-weight: bold;
-  display: flex;
-  align-items: center;
 }
 
 /*
@@ -47,12 +45,5 @@ link: {
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  color: white;
-  font-size: xx-large;
-  font-weight: 100;
 }
 
-#banner:hover {
-  font-weight: 350;
-}
