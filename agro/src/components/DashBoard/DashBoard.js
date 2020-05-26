@@ -43,11 +43,11 @@ function DashBoard (props) {
 
   // This function would populate the view
   const populateRouteViews = () => {
+    console.log('as')
 	  //Populate the views. But bail out if user is not authorised or not logged in
     if(localStorage.getItem('isLoggedIn')){
       // First let define that we are doing work
       if(!state.working){
-        console.log('dd')
         dispatch({type:'setWorking',payload:{state}});
       }
       // Only set context if it isn't already set
@@ -75,13 +75,12 @@ function DashBoard (props) {
       }
       // Let's set that we are done doing work
       dispatch({type:'unsetWorking',payload:{state}});
-      console.log('ww')
     }
   }
 
   useEffect(() => {
     populateRouteViews();
-  },[state.email, state.username, state.isLoggedIn]);
+  },[]);
 
   return (
     localStorage.getItem('isLoggedIn') ?
@@ -102,7 +101,7 @@ function DashBoard (props) {
         </div>
       </div>
     :
-      <Redirect to='/' />
+      <Redirect to={{pathname:'/'}} />
 	);
 }
 export default DashBoard;
