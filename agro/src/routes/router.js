@@ -1,17 +1,9 @@
 /*
-  TODO: Kehinde Faleye
-  Modified routing technique to allow for lazy loading an code spliting in other components for optimization
+  TODO:
+  Modified routing technique to allow for lazy loading -- done
 */
 
 // Each object is a route with infromation to identify it. 
-
-/* To be removed once pull request is approved
-export const HOME = "/";
-export const LOGIN = "/login";
-export const REGISTER = "/register";
-export const ABOUT = '/about';
-export const DASHBOARD = '/dashboard'
-*/
 
 var routes = [
   {

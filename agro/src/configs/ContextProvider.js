@@ -66,6 +66,11 @@ let reducer = (state, action) => {
   	return setUserStatus(state,action.payload);
   }
 
+  case 'reset':{
+  	// This action would reset the context variable to it original state
+  	return initialContextState;
+  }
+
   default: // In case
   	throw new Error();
 	}

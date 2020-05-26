@@ -1,7 +1,7 @@
 /*
-  TODO: Edit by Kehinde Faleye
+  TODO:
   Use refs to access input values instead of states to reduce re-renders -- done
-  Make NavBar persistent instead og being imported each redirect
+  Make NavBar persistent instead of being imported each redirect
 */
 import React, { useState, useRef, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";

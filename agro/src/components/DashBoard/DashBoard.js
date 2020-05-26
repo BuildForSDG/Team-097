@@ -3,7 +3,7 @@
   Include a NavBar to show some page information and toggle a collapsible div -- done
   Make Footer sticky -- done
   Restrict access to the dashboard except after loggin in -- done
-  Make logged in info persist refresh using localstorage
+  Make logged in info persist refresh using localstorage -- done
 */
 import React, {useEffect, useState, useRef, useContext, Suspense, lazy} from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
@@ -29,6 +29,17 @@ function DashBoard (props) {
   const mainPanel = useRef();
   // Let's connect to our global state
   let { state, dispatch } = useContext(Context);
+
+  // This function is passed to the NavBar component to clear the cookies and log the user out
+  const logout = () => {
+    // Let's remove the email and username
+    localStorage.removeItem('email');
+    localStorage.removeItem('username');
+    // Let's remove the loggedIn item
+    localStorage.removeItem('isLoggedIn');
+    // Let's set our state and trigger render
+    dispatch({type:'reset'});
+  }
 
   useEffect(() => {
 
@@ -63,7 +74,7 @@ function DashBoard (props) {
       <div className="wrapper">
         <SideBar routes={routes} />
         <div className="main-panel" style={{minHeight:'100%'}} ref={mainPanel}>
-          <NavBar routes={routes} />
+          <NavBar routes={routes} logout={logout} />
           <Suspense fallback={ <ProgressBar /> }>
             <Switch>
               { views }

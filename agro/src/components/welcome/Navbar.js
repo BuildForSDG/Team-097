@@ -5,10 +5,9 @@
   The links have too much height or padding to them, reduce that or remove --done
   This navbar wouldn't be needed once there is a dashboard -- true
   The links should be styled for the hover event -- done
-  Style for the collapsible and populate element inside
   Use img insteada of bootstrap image -- done
-  Find a way to make logo size small. Ver small, it's a bottleneck -- i did some logos
-  Check out all the logos, which one would you prefer or suggest a nicer one. Check the AGreen_black
+  NOTE:Find a way to make logo size small. Ver small, it's a bottleneck -- i did some logos
+  NOTE:Check out all the logos, which one would you prefer or suggest a nicer one. Check the AGreen_black
 */
 import React from "react";
 import { Link } from "react-router-dom";
