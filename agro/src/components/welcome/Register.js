@@ -1,7 +1,7 @@
 /*
-  TODO: Edit by Kehinde Faleye
+  TODO:
   Use refs to access input values instead of states to reduce re-renders -- done
-  Make NavBar persistent instead og being imported each redirect
+  Make NavBar persistent instead of being imported each redirect
 */
 import React, { useState, useRef, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
@@ -42,8 +42,8 @@ function Register(props) {
       <Navigation />
       <Container>
         <Row>
-          <Col md={{ span: 6, offset: 3 }}>
-            <h5 className='mt-3' style={{ fontSize: '1.7rem', color: '#3d3d3c'}}>Register</h5>
+          <Col md={{ span: 4, offset: 4 }}>
+            <h5 className='mt-3'>Register</h5>
             <hr />
             <Form onSubmit={handleSubmit}>
               {

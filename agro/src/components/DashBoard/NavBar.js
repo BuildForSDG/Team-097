@@ -1,5 +1,5 @@
 /*
-  TODO: Edit By Falye Kehinde
+  TODO:
   Make the loading bar active when a task starts running -- idea, using context to manage states
 */
 import React, { useRef } from "react";
@@ -8,6 +8,7 @@ import {
   Navbar,
   NavbarBrand,
   Container,
+  Button
 } from "react-bootstrap";
 
 // Import our logo
@@ -32,13 +33,13 @@ function Header(props) {
     return brandName;
   }
 
+  // This function would open the sidebar when the screen size is small
   const openSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
     sidebarToggle.current.classList.toggle("toggled");
   }
-
     return (
-      <Navbar expand="lg" className="navbar-absolute fixed-top navbar-transparent">
+      <Navbar expand="lg" className="navbar-absolute fixed-top navbar-transparent" style={{'flexWrap':'nowrap'}} >
         <Container fluid>
           <div className="navbar-wrapper">
             <img src={Logo} alt='agro-network' id='logo' fluid="true" />
@@ -57,6 +58,9 @@ function Header(props) {
             </NavbarBrand>
           </div>
         </Container>
+        <Button variant='outline-success' style={{float:'right'}} size='sm' onClick={props.logout} >
+          LogOut
+        </Button>
       </Navbar>
     );
 }
