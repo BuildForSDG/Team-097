@@ -2,7 +2,7 @@
   TODO:
   Make the loading bar active when a task starts running -- idea, using context to manage states
 */
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import {
   Navbar,
@@ -10,17 +10,19 @@ import {
   Container,
   Button
 } from "react-bootstrap";
-
+// Import our context
+import { Context } from '../../configs/ContextProvider';
 // Import our logo
 import Logo from "../../assets/logos/AG_cow.png";
-
 // Import our Loading Bar
-// import { LoadingBar } from '../Fallbacks/fallback'; //This component would be able to work after context is set up
+import { LoadingSpinner } from '../Fallbacks/fallback';
 
 function Header(props) {
 
   //The ref for the button used to open the dashboard when resize
   const sidebarToggle = useRef();
+  // Let's connect to our context
+  let {state, dispatch} = useContext(Context);
 
   const getBrand = () => {
     let brandName = "Agro-Network";
@@ -42,7 +44,11 @@ function Header(props) {
       <Navbar expand="lg" className="navbar-absolute fixed-top navbar-transparent" style={{'flexWrap':'nowrap'}} >
         <Container fluid>
           <div className="navbar-wrapper">
-            <img src={Logo} alt='agro-network' id='logo' fluid="true" />
+            {state.working ?
+              <LoadingSpinner />
+              :
+              <img src={Logo} alt='agro-network' id='logo' fluid="true" />
+            }
             <div className="navbar-toggle">
               <button type="button" ref={sidebarToggle} className="navbar-toggler" onClick={openSidebar}>
                 <span className="navbar-toggler-bar bar1" />

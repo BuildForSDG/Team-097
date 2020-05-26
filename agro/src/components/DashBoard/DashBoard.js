@@ -9,7 +9,7 @@ import React, {useEffect, useState, useRef, useContext, Suspense, lazy} from 're
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 // Import our fallback
-import ProgressBar from '../Fallbacks/fallback';
+import { LoadingBar } from '../Fallbacks/fallback';
 
 // Import the sidebar
 import SideBar from '../SideBar/SideBar';
@@ -41,10 +41,15 @@ function DashBoard (props) {
     dispatch({type:'reset'});
   }
 
-  useEffect(() => {
-
-	//Populate the views. But bail out if user is not authorised or not logged in
+  // This function would populate the view
+  const populateRouteViews = () => {
+	  //Populate the views. But bail out if user is not authorised or not logged in
     if(localStorage.getItem('isLoggedIn')){
+      // First let define that we are doing work
+      if(!state.working){
+        console.log('dd')
+        dispatch({type:'setWorking',payload:{state}});
+      }
       // Only set context if it isn't already set
       if(!state.email || !state.username || !state.isLoggedIn){
         // Set our context with the passed props of the Login component
@@ -57,17 +62,26 @@ function DashBoard (props) {
         dispatch({type:'setUserStatus', payload});
       }
       // Let's lazy load all the views that can be accessed from the dashboard
-      let views = [];
-      routes.map((prop, key) => {
-        views.push(<Route path={prop.layout + prop.path} 
-          component={lazy(() => import('../'+prop.component))} 
-          key={key} />
-        );
-        return true;
-      });
-    setViews(views);
+      if(views.length <= 0) {
+        let views = [];
+        routes.map((prop, key) => {
+          views.push(<Route path={prop.layout + prop.path} 
+            component={lazy(() => import('../'+prop.component))} 
+            key={key} />
+          );
+          return true;
+        });
+        setViews(views);
+      }
+      // Let's set that we are done doing work
+      dispatch({type:'unsetWorking',payload:{state}});
+      console.log('ww')
     }
-  },[state]);
+  }
+
+  useEffect(() => {
+    populateRouteViews();
+  },[state.email, state.username, state.isLoggedIn]);
 
   return (
     localStorage.getItem('isLoggedIn') ?
@@ -75,15 +89,15 @@ function DashBoard (props) {
         <SideBar routes={routes} />
         <div className="main-panel" style={{minHeight:'100%'}} ref={mainPanel}>
           <NavBar routes={routes} logout={logout} />
-          <Suspense fallback={ <ProgressBar /> }>
+          <Suspense fallback={ <LoadingBar /> }>
             <Switch>
               { views }
             </Switch>
           </Suspense>
           <Footer style={{
-  		  position: 'absolute',
-  		  bottom: 0,
-  		  width: '100%'
+  		      position: 'absolute',
+      		  bottom: 0,
+      		  width: '100%'
           }} fluid />
         </div>
       </div>
