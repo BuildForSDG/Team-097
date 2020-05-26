@@ -14,6 +14,7 @@ import './css/Login.css';
 import { Context } from '../../configs/ContextProvider';
 
 function Login(props){
+  console.log('login')
   // Ref for the email input
   const email = useRef(null);
   // Ref for the password
@@ -49,7 +50,7 @@ function Login(props){
   };
 
   return (
-    !state.isLoggedIn ?
+    !localStorage.getItem('isLoggedIn') ?
       <Fragment>
         <Navigation />
         <Container>
