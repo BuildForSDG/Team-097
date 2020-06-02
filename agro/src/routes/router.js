@@ -17,15 +17,15 @@ var routes = [
   {
     path: "/agronetworks",
     heading: "Agro-Networks",
-    name: "Agro-Networks",
+    name: "Networks",
     //icon: "nc-icon nc-single-02",
     component:'AgroNetwork/AgroNetwork',
     layout: "/dashboard"
   },
   {
     path: '/agrocomodity',
-    heading: "Agro Commodities",
-    name: "Agro-Commodities",
+    heading: "Agro-Commodities",
+    name: "Commodities",
     //icon: "nc-icon nc-single-02",
     component:'AgroComodity/AgroComodity',
     layout: "/dashboard"

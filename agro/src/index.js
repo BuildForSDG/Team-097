@@ -5,12 +5,13 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 
-ReactDOM.render(
+ReactDOM.unstable_createRoot(
+  document.getElementById("root")
+).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+  </React.StrictMode>
+  );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
