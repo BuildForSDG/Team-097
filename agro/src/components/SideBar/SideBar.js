@@ -40,6 +40,7 @@ function SideBar(props) {
 	            {props.routes.map((prop, key) => {
 	              return (
 	                <li
+	                	id='links'
 	                  className={ props.location.pathname.indexOf(prop.path) > -1 ? "active" : "" }
 	                  key={key} 
 	                  style={{marginBottom:'20px'}}
